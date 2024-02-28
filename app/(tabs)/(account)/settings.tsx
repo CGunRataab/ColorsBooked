@@ -1,10 +1,19 @@
+import { router } from 'expo-router';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 const buttons = ['Liked', 'Settings', 'Log Out'];
 export default function Settings(): React.ReactNode {
   return (
-    <View style={{ width: '100%', alignItems: 'center', gap: 25, paddingBottom: 60 }}>
+    <View
+      style={{ width: '100%', alignItems: 'center', gap: 25, paddingBottom: 60, marginTop: 50 }}>
+      <View style={{ width: '90%' }}>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          style={{ backgroundColor: 'red', width: 50, height: 50, borderRadius: 100 }}>
+          <Text>a</Text>
+        </TouchableOpacity>
+      </View>
       {buttons.map((word, i) => (
         <TouchableOpacity
           key={i}

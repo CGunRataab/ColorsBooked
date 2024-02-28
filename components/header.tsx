@@ -18,8 +18,7 @@ export const Header = ({
   chosenColor,
   setChosenColor,
 }: header): React.ReactNode => {
-  const [search, setSearch] = useState<string>('');
-  console.log(search);
+  const [, setSearch] = useState<string>('');
   const [extended, setExtended] = useState(false);
   return (
     <View

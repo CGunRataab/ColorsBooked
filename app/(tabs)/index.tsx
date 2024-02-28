@@ -149,6 +149,7 @@ export default function TabOneScreen(): React.ReactNode {
           <View style={{ display: 'flex', alignItems: 'center' }}>
             <FlatList
               scrollEnabled={false}
+              contentContainerStyle={{ gap: 30 }}
               ListHeaderComponent={() => (
                 <Header
                   chosenColor={chosenColor}
