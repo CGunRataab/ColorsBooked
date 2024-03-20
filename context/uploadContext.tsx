@@ -10,4 +10,4 @@ type ContextType = {
   setUser: React.Dispatch<React.SetStateAction<userInfo | null>>;
 };
 
-export const CreateUserContext = createContext<ContextType | null>(null);
+export const UploadImageContext = createContext<ContextType | null>(null);

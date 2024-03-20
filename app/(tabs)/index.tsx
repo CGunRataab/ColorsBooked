@@ -1,3 +1,4 @@
+import { gql, useQuery } from '@apollo/client';
 import { useState } from 'react';
 import {
   Dimensions,
@@ -14,11 +15,6 @@ import ColorPicker from 'react-native-wheel-color-picker';
 import { Header } from '@/components/header';
 import { Pictures } from '@/components/pictures';
 
-const TemporaryItems = [
-  { title: 'dAme black', description: 'this color do be black tho hoe', color: 'green' },
-  { title: 'White', description: 'bread', color: 'black' },
-  { title: 'White', description: 'bread', color: 'black' },
-];
 const Colors = [
   '#000',
   '#555',
@@ -37,8 +33,23 @@ const Colors = [
   'last',
 ];
 
+const GET_PICTURE_LIST = gql`
+  query GetPictureList {
+    getPictureList {
+      description
+      id
+      photo
+      title
+      userId
+      color
+      username
+    }
+  }
+`;
+
 export default function TabOneScreen(): React.ReactNode {
   const [colorWheel, setColorWheel] = useState(false);
+  const { data, loading } = useQuery(GET_PICTURE_LIST);
   const [chosenColor, setChosenColor] = useState('cyan');
   const [state, setState] = useState({
     currentColor: '#00FF00',
@@ -49,6 +60,8 @@ export default function TabOneScreen(): React.ReactNode {
     sliderHidden: true,
   });
   const [barColor, setBarColor] = useState('');
+  if (loading) return <Text>Loading</Text>;
+  const { getPictureList } = data;
   const onColorChange = (color: string): void => {
     setState({ ...state, currentColor: color });
   };
@@ -160,9 +173,15 @@ export default function TabOneScreen(): React.ReactNode {
                 />
               )}
               style={{ width: '100%' }}
-              data={TemporaryItems}
+              data={getPictureList}
               renderItem={({ item }) => (
-                <Pictures title={item.title} description={item.description} color={item.color} />
+                <Pictures
+                  title={item.title}
+                  description={item.description}
+                  color={item.color}
+                  photo={item.photo}
+                  username={item.username}
+                />
               )}
             />
           </View>

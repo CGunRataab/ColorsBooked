@@ -1,12 +1,32 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { Stack } from 'expo-router';
+import { useState } from 'react';
+
+import { CreateUserContext } from '@/context/userContext';
+
+type userInfo = {
+  id: string;
+  name: string;
+  email: string;
+};
 
 const RootLayoutNav: React.FC = () => {
+  const client = new ApolloClient({
+    uri: 'http://192.168.11.209:3000/api/graphql',
+    cache: new InMemoryCache(),
+  });
+  const [user, setUser] = useState<userInfo | null>(null);
   return (
-    <Stack screenOptions={{ contentStyle: { backgroundColor: '#FFFFFF' } }}>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="register" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
+    <ApolloProvider client={client}>
+      <CreateUserContext.Provider value={{ user, setUser }}>
+        <Stack screenOptions={{ contentStyle: { backgroundColor: '#FFFFFF' } }}>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="login" options={{ headerShown: false }} />
+          <Stack.Screen name="register" options={{ headerShown: false }} />
+          <Stack.Screen name="upload" />
+        </Stack>
+      </CreateUserContext.Provider>
+    </ApolloProvider>
   );
 };
 

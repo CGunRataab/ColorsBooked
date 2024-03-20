@@ -1,7 +1,6 @@
-import { useMutation } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link, router } from 'expo-router';
-import gql from 'graphql-tag';
 import { useContext, useState } from 'react';
 import {
   Keyboard,
@@ -14,56 +13,40 @@ import {
 
 import { CreateUserContext } from '@/context/userContext';
 
-const CREATE_USER = gql`
-  mutation CreateUser($input: UserCreateInput!) {
-    createUser(input: $input) {
+const LOGIN_USER = gql`
+  mutation LoginUser($input: UserLogin!) {
+    loginUser(input: $input) {
       id
       email
       password
-      name
     }
   }
 `;
 
-export default function Register(): React.ReactNode {
-  const [userCreate] = useMutation(CREATE_USER);
+export default function Login(): React.ReactNode {
   const context = useContext(CreateUserContext);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [name, setName] = useState('');
+  const [userLogin] = useMutation(LOGIN_USER);
+  const [errorMessage, setErrorMessage] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
-  const Register = (): void => {
-    if (password !== password2) {
-      setErrorMessage('password doesnt match');
-      return;
-    }
-    //eslint-disable-next-line
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
-    if (reg.test(email) === false) {
-      setErrorMessage('please use a real email');
-      return;
-    }
-    userCreate({
+  const Login = async (): Promise<void> => {
+    userLogin({
       variables: {
         input: {
           email,
-          name,
           password,
         },
       },
     })
       .then((res) => {
         if (context !== null) {
-          context.setUser(res.data.createUser);
-          const temp = res.data.createUser.id;
+          context.setUser(res.data.loginUser);
+          const temp = res.data.loginUser.id;
           AsyncStorage.setItem('userId', temp);
           router.replace('/(tabs)');
         }
       })
-      .catch((error) => {
-        setErrorMessage(error.message);
-      });
+      .catch((error) => setErrorMessage(error.message));
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -75,34 +58,20 @@ export default function Register(): React.ReactNode {
           gap: 40,
           paddingBottom: 50,
         }}>
-        <Text style={{ fontSize: 80 }}>Register</Text>
+        <Text style={{ fontSize: 80 }}>Login</Text>
         <View
           style={{
-            borderColor: 'black',
+            borderBlockColor: 'black',
             borderWidth: 3,
             width: '90%',
-            height: '70%',
+            height: '50%',
             borderRadius: 10,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-evenly',
           }}>
           <TextInput
-            style={{
-              borderColor: 'black',
-              borderWidth: 2,
-              width: '80%',
-              height: 80,
-              borderRadius: 10,
-              paddingLeft: 15,
-              fontSize: 20,
-            }}
-            value={name}
-            onChangeText={(e) => setName(e)}
-            placeholder="Enter Name"
-            placeholderTextColor="black"
-          />
-          <TextInput
+            textContentType="emailAddress"
             style={{
               borderColor: 'black',
               borderWidth: 2,
@@ -118,6 +87,7 @@ export default function Register(): React.ReactNode {
             placeholderTextColor="black"
           />
           <TextInput
+            textContentType="password"
             style={{
               borderColor: 'black',
               borderWidth: 2,
@@ -132,21 +102,6 @@ export default function Register(): React.ReactNode {
             placeholder="Enter Password"
             placeholderTextColor="black"
           />
-          <TextInput
-            style={{
-              borderColor: 'black',
-              borderWidth: 2,
-              width: '80%',
-              height: 80,
-              borderRadius: 10,
-              paddingLeft: 15,
-              fontSize: 20,
-            }}
-            value={password2}
-            onChangeText={(e) => setPassword2(e)}
-            placeholder="Repeat Password"
-            placeholderTextColor="black"
-          />
           <View
             style={{
               width: '100%',
@@ -159,7 +114,9 @@ export default function Register(): React.ReactNode {
               <Text style={{ color: 'red', fontWeight: '500', fontSize: 15 }}>{errorMessage}</Text>
             )}
             <TouchableOpacity
-              onPress={Register}
+              onPress={() => {
+                Login();
+              }}
               style={{
                 width: '50%',
                 backgroundColor: 'lime',
@@ -171,12 +128,12 @@ export default function Register(): React.ReactNode {
                 borderBlockColor: 'black',
                 borderWidth: 2,
               }}>
-              <Text style={{ fontSize: 25 }}>Register</Text>
+              <Text style={{ fontSize: 25 }}>Login</Text>
             </TouchableOpacity>
             <Link
-              href="../"
+              href="/register"
               style={{ width: '75%', fontSize: 15, textAlign: 'right', color: '#0000EE' }}>
-              Login
+              Register
             </Link>
           </View>
         </View>
