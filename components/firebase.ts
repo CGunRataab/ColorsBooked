@@ -4,14 +4,19 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/
 interface FirebaseCheck {
   downloadUrl: string | undefined;
 }
+const apiKey = process.env.EXPO_PUBLIC_FIREBASE_API_KEY;
+const storageBucket = process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET;
+const appId = process.env.EXPO_PUBLIC_FIREBASE_APP_ID;
+const projectId = process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID;
+const authDomain = process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN;
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: 'AIzaSyBJO_H5YuupOF30o2qLOJVkxrb1sR580rk',
-  storageBucket: 'colorbook-pic-storage.appspot.com',
-  appId: '1:845026734129:web:5dbf19471497433eade510',
-  projectId: 'colorbook-pic-storage',
-  authDomain: 'colorbook-pic-storage.firebaseapp.com',
+  apiKey,
+  storageBucket,
+  appId,
+  projectId,
+  authDomain,
 };
 
 if (getApps().length === 0) {
