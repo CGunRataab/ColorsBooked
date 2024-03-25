@@ -12,7 +12,7 @@ type userInfo = {
 
 const RootLayoutNav: React.FC = () => {
   const client = new ApolloClient({
-    uri: 'http://192.168.11.209:3000/api/graphql',
+    uri: 'http://192.168.11.51:3000/api/graphql',
     cache: new InMemoryCache(),
   });
   const [user, setUser] = useState<userInfo | null>(null);

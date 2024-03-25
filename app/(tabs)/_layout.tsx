@@ -5,7 +5,10 @@ import { Tabs, router } from 'expo-router';
 import React, { useContext, useEffect, useState } from 'react';
 import { Button, Dimensions, Text, TouchableOpacity, View } from 'react-native';
 
+import { AccountIcon } from '@/assets/images/Group';
+import { HomeIcon } from '@/assets/images/Vector';
 import { CreateUserContext } from '@/context/userContext';
+
 const GET_USER_ID = gql`
   query ExampleQuery($id: ID) {
     getUser(id: $id) {
@@ -19,14 +22,12 @@ const GET_USER_ID = gql`
 interface ForCamera {
   status: ImagePicker.PermissionResponse | null;
   requestPermission: () => Promise<ImagePicker.PermissionResponse>;
-  photo: ImagePicker.ImagePickerAsset | null;
   setPhoto: React.Dispatch<React.SetStateAction<ImagePicker.ImagePickerAsset | null>>;
 }
 
 const Capturer = async ({
   status,
   requestPermission,
-  photo,
   setPhoto,
 }: ForCamera): Promise<React.ReactNode | void> => {
   if (!status || !status.granted) {
@@ -53,7 +54,6 @@ const Capturer = async ({
 const Picker = async ({
   status,
   requestPermission,
-  photo,
   setPhoto,
 }: ForCamera): Promise<React.ReactNode | void> => {
   if (!status || !status.granted) {
@@ -91,12 +91,18 @@ const TabLayout: React.FC = () => {
   const [photo, setPhoto] = useState<ImagePicker.ImagePickerAsset | null>(null);
   const Parser = async (): Promise<string | null> => {
     const temp = await AsyncStorage.getItem('userId');
-    getUser({ variables: { id: temp } }).then((res) => {
-      context?.setUser(res.data.getUser);
-      if (res.data === undefined || res.data.getUser === null) {
+    getUser({ variables: { id: temp } })
+      .then((res) => {
+        context?.setUser(res.data.getUser);
+        if (res.data === undefined || res.data.getUser === null) {
+          console.log(res.data);
+          router.push('/login');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
         router.push('/login');
-      }
-    });
+      });
     return temp;
   };
   useEffect(() => {
@@ -109,20 +115,28 @@ const TabLayout: React.FC = () => {
   return (
     <Tabs
       screenOptions={{
+        tabBarActiveTintColor: '#00EEEE',
         headerShown: false,
         tabBarStyle: {
           borderWidth: 1,
-          borderTopWidth: 1,
-          borderTopColor: 'grey',
-          backgroundColor: '#F5F5F5',
-          height: 90,
+          borderTopWidth: 2,
+          borderTopColor: '#00EEEE',
+          backgroundColor: '#0077EE',
+          height: 80,
           paddingTop: 20,
         },
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
+          title: '',
+          tabBarIcon: ({ color }) => (
+            <View
+              style={{ paddingLeft: 25, paddingTop: 10, display: 'flex', alignItems: 'center' }}>
+              <HomeIcon width="35" height="35" color={color} />
+              <Text style={{ color, fontSize: 13, fontWeight: '500' }}>Home</Text>
+            </View>
+          ),
         }}
       />
       <Tabs.Screen
@@ -148,8 +162,8 @@ const TabLayout: React.FC = () => {
                       borderRadius: 10,
                       borderWidth: 1,
                       borderTopWidth: 1,
-                      borderTopColor: 'black',
-                      backgroundColor: '#F5F5F5',
+                      borderTopColor: '#00EEEE',
+                      backgroundColor: '#0077EE',
                       display: 'flex',
                       alignItems: 'center',
                     }}>
@@ -157,7 +171,7 @@ const TabLayout: React.FC = () => {
                       style={{
                         marginTop: 30,
                         width: '80%',
-                        borderColor: 'black',
+                        borderColor: '#00EEEE',
                         borderWidth: 2,
                         height: 70,
                         borderRadius: 10,
@@ -166,15 +180,15 @@ const TabLayout: React.FC = () => {
                         justifyContent: 'center',
                       }}
                       onPress={() => {
-                        Picker({ status, requestPermission, photo, setPhoto });
+                        Picker({ status, requestPermission, setPhoto });
                       }}>
-                      <Text style={{ fontSize: 20 }}>Upload Image</Text>
+                      <Text style={{ fontSize: 20, color: '#00EEEE' }}>Upload Image</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={{
                         marginTop: 30,
                         width: '80%',
-                        borderColor: 'black',
+                        borderColor: '#00EEEE',
                         borderWidth: 2,
                         height: 70,
                         borderRadius: 10,
@@ -183,18 +197,18 @@ const TabLayout: React.FC = () => {
                         justifyContent: 'center',
                       }}
                       onPress={() => {
-                        Capturer({ status, requestPermission, photo, setPhoto });
+                        Capturer({ status, requestPermission, setPhoto });
                       }}>
-                      <Text style={{ fontSize: 20 }}>Take Picture</Text>
+                      <Text style={{ fontSize: 20, color: '#00EEEE' }}>Take Picture</Text>
                     </TouchableOpacity>
                   </View>
                 )}
                 <TouchableOpacity
                   style={{
-                    width: 60,
-                    height: 60,
-                    borderWidth: 3,
-                    borderColor: 'black',
+                    width: 50,
+                    height: 50,
+                    borderWidth: 2,
+                    borderColor: '#00EEEE',
                     borderRadius: 100,
                     display: 'flex',
                     alignItems: 'center',
@@ -203,14 +217,26 @@ const TabLayout: React.FC = () => {
                   onPress={() => {
                     setPopUp(!popUp);
                   }}>
-                  <Text style={{ fontSize: 50, marginTop: -7 }}>+</Text>
+                  <Text style={{ fontSize: 50, marginTop: -10, color: '#00EEEE' }}>+</Text>
                 </TouchableOpacity>
               </View>
             );
           },
         }}
       />
-      <Tabs.Screen name="(account)" />
+      <Tabs.Screen
+        name="(account)"
+        options={{
+          title: '',
+          tabBarIcon: ({ color }) => (
+            <View
+              style={{ paddingRight: 25, paddingTop: 10, display: 'flex', alignItems: 'center' }}>
+              <AccountIcon width="35" height="35" color={color} />
+              <Text style={{ color, fontSize: 13, fontWeight: '500' }}>Account</Text>
+            </View>
+          ),
+        }}
+      />
     </Tabs>
   );
 };

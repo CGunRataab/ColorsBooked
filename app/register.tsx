@@ -75,24 +75,21 @@ export default function Register(): React.ReactNode {
           gap: 40,
           paddingBottom: 50,
         }}>
-        <Text style={{ fontSize: 80 }}>Register</Text>
+        <Text style={{ fontSize: 80, color: '#0be' }}>Register</Text>
         <View
           style={{
-            borderColor: 'black',
-            borderWidth: 3,
             width: '90%',
-            height: '70%',
-            borderRadius: 10,
+            height: '50%',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-evenly',
+            gap: 25,
           }}>
           <TextInput
             style={{
               borderColor: 'black',
               borderWidth: 2,
               width: '80%',
-              height: 80,
+              height: 60,
               borderRadius: 10,
               paddingLeft: 15,
               fontSize: 20,
@@ -107,7 +104,7 @@ export default function Register(): React.ReactNode {
               borderColor: 'black',
               borderWidth: 2,
               width: '80%',
-              height: 80,
+              height: 60,
               borderRadius: 10,
               paddingLeft: 15,
               fontSize: 20,
@@ -122,7 +119,7 @@ export default function Register(): React.ReactNode {
               borderColor: 'black',
               borderWidth: 2,
               width: '80%',
-              height: 80,
+              height: 60,
               borderRadius: 10,
               paddingLeft: 15,
               fontSize: 20,
@@ -137,7 +134,7 @@ export default function Register(): React.ReactNode {
               borderColor: 'black',
               borderWidth: 2,
               width: '80%',
-              height: 80,
+              height: 60,
               borderRadius: 10,
               paddingLeft: 15,
               fontSize: 20,
@@ -162,7 +159,7 @@ export default function Register(): React.ReactNode {
               onPress={Register}
               style={{
                 width: '50%',
-                backgroundColor: 'lime',
+                backgroundColor: '#1af',
                 height: 60,
                 display: 'flex',
                 alignItems: 'center',
@@ -175,7 +172,13 @@ export default function Register(): React.ReactNode {
             </TouchableOpacity>
             <Link
               href="../"
-              style={{ width: '75%', fontSize: 15, textAlign: 'right', color: '#0000EE' }}>
+              style={{
+                width: '75%',
+                fontSize: 15,
+                fontWeight: '600',
+                textAlign: 'right',
+                color: '#0ad',
+              }}>
               Login
             </Link>
           </View>

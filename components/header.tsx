@@ -28,20 +28,24 @@ export const Header = ({
               display: 'flex',
               paddingTop: 10,
               width: '100%',
-              borderWidth: 1,
+              borderWidth: 2,
               borderRadius: 10,
               height: 100,
-              borderColor: 'black',
+              borderTopColor: 'transparent',
+              backgroundColor: '#0077EE',
+              borderColor: '#00EEEE',
               flexDirection: 'column',
             }
           : {
               display: 'flex',
               paddingTop: 10,
               width: '100%',
-              borderWidth: 1,
+              borderWidth: 2,
               borderRadius: 10,
               height: 290,
-              borderColor: 'black',
+              backgroundColor: '#0077EE',
+              borderColor: '#00EEEE',
+              borderTopColor: 'transparent',
               flexDirection: 'column',
             }
       }>
@@ -63,7 +67,7 @@ export const Header = ({
             justifyContent: 'center',
             display: 'flex',
             backgroundColor: chosenColor,
-            borderColor: 'black',
+            borderColor: '#00EEEE',
             borderWidth: 2,
           }}
           onPress={() => setExtended(!extended)}>
@@ -72,23 +76,24 @@ export const Header = ({
         <TextInput
           style={{
             width: '60%',
-            borderWidth: 1,
-            borderRadius: 20,
+            borderWidth: 2,
+            borderRadius: 15,
+            borderColor: '#00EEEE',
             height: 40,
             fontSize: 20,
           }}
           textAlign="center"
           placeholder="Search"
           onChangeText={(e) => setSearch(e)}
-          placeholderTextColor="grey"
+          placeholderTextColor="#00EEEE"
         />
         <TouchableOpacity
           style={{
-            borderColor: 'black',
-            borderWidth: 1,
+            borderColor: '#00EEEE',
+            borderWidth: 2,
             borderRadius: 100,
           }}>
-          <EnterArrow width="40px" height="40px" />
+          <EnterArrow width="40px" height="40px" color="#00EEEE" />
         </TouchableOpacity>
       </View>
       {extended ? (

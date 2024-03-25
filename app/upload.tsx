@@ -1,5 +1,6 @@
 import { useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 import { router } from 'expo-router';
 import gql from 'graphql-tag';
 import { useContext, useEffect, useState } from 'react';
@@ -13,6 +14,7 @@ import {
   View,
 } from 'react-native';
 
+import { uploadToFirebase } from '@/components/firebase';
 import { CreateUserContext } from '@/context/userContext';
 
 const UPLOAD_PIC = gql`
@@ -23,12 +25,20 @@ const UPLOAD_PIC = gql`
   }
 `;
 
+interface ColorTypes {
+  r: number;
+  g: number;
+  b: number;
+  hex: string;
+  hsv: [];
+}
+
 export default function Upload(): React.ReactNode {
   const context = useContext(CreateUserContext);
   const [temp, setTemp] = useState<string>('');
-  const [temp2, setTemp2] = useState<{ photo: { uri: string } } | null>();
+  const [temp2, setTemp2] = useState<{ photo: { uri: string; fileName: string } } | null>();
   const [title, setTitle] = useState('');
-  const [color] = useState('rgb(0,0,0)');
+  const [color, setColor] = useState<ColorTypes>();
   const [description, setDescription] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>();
   const [sendImage] = useMutation(UPLOAD_PIC);
@@ -47,23 +57,43 @@ export default function Upload(): React.ReactNode {
     Parser();
   }, [temp]);
   const Upload = async (): Promise<void> => {
-    if (!title) {
-      setErrorMessage('Needs a title');
-      return;
+    try {
+      if (!title) {
+        setErrorMessage('Needs a title');
+        return;
+      }
+      const fileName = temp2?.photo.uri.split('/').pop();
+      const uploadRes = await uploadToFirebase(temp2?.photo.uri, fileName);
+      await axios
+        .get('https://api.sightengine.com/1.0/check.json', {
+          params: {
+            url: uploadRes.downloadUrl,
+            models: 'properties',
+            api_user: '50790669',
+            api_secret: 'dmeeGvCtQ8aME57Hv2PMSqw5dPUQi7JY',
+          },
+        })
+        .then((res) => {
+          setColor(res.data.colors.dominant);
+          sendImage({
+            variables: {
+              input: {
+                photo: uploadRes.downloadUrl,
+                title,
+                description,
+                color: res.data.colors.dominant,
+                userId: context?.user?.id,
+                username: context?.user?.name,
+              },
+            },
+          }).catch((err) => console.log(err.message));
+        })
+        .catch((err) => console.log(err));
+      router.push('/(tabs)');
+    } catch (err) {
+      console.log(err);
     }
-    sendImage({
-      variables: {
-        input: {
-          photo: temp2?.photo.uri,
-          title,
-          description,
-          color,
-          userId: context?.user?.id,
-          username: context?.user?.name,
-        },
-      },
-    }).catch((err) => console.log(err.message));
-    router.push('/(tabs)');
+    console.log(color);
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -104,7 +134,6 @@ export default function Upload(): React.ReactNode {
           onChangeText={(e) => setDescription(e)}
           placeholder="Description"
         />
-        <Text>{color}</Text>
         <TouchableOpacity
           onPress={() => {
             Upload();

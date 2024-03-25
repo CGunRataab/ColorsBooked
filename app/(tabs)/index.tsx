@@ -37,19 +37,22 @@ const GET_PICTURE_LIST = gql`
   query GetPictureList {
     getPictureList {
       description
-      id
       photo
       title
-      userId
-      color
       username
+      color {
+        b
+        g
+        hex
+        r
+      }
     }
   }
 `;
 
 export default function TabOneScreen(): React.ReactNode {
   const [colorWheel, setColorWheel] = useState(false);
-  const { data, loading } = useQuery(GET_PICTURE_LIST);
+  const { data, loading, error } = useQuery(GET_PICTURE_LIST);
   const [chosenColor, setChosenColor] = useState('cyan');
   const [state, setState] = useState({
     currentColor: '#00FF00',
@@ -60,6 +63,12 @@ export default function TabOneScreen(): React.ReactNode {
     sliderHidden: true,
   });
   const [barColor, setBarColor] = useState('');
+  if (error)
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>{error.message}</Text>
+      </View>
+    );
   if (loading) return <Text>Loading</Text>;
   const { getPictureList } = data;
   const onColorChange = (color: string): void => {
@@ -69,7 +78,7 @@ export default function TabOneScreen(): React.ReactNode {
     setBarColor(color);
   };
   return (
-    <View>
+    <View style={{ backgroundColor: '#f8f8f8' }}>
       {colorWheel && (
         <View
           style={{

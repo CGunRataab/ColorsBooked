@@ -55,20 +55,17 @@ export default function Login(): React.ReactNode {
           flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 40,
+          gap: 50,
           paddingBottom: 50,
         }}>
-        <Text style={{ fontSize: 80 }}>Login</Text>
+        <Text style={{ fontSize: 80, color: '#0be' }}>Login</Text>
         <View
           style={{
-            borderBlockColor: 'black',
-            borderWidth: 3,
             width: '90%',
-            height: '50%',
-            borderRadius: 10,
+            height: '35%',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-evenly',
+            gap: 25,
           }}>
           <TextInput
             textContentType="emailAddress"
@@ -76,7 +73,7 @@ export default function Login(): React.ReactNode {
               borderColor: 'black',
               borderWidth: 2,
               width: '80%',
-              height: 80,
+              height: 60,
               borderRadius: 10,
               paddingLeft: 15,
               fontSize: 20,
@@ -87,12 +84,13 @@ export default function Login(): React.ReactNode {
             placeholderTextColor="black"
           />
           <TextInput
+            secureTextEntry
             textContentType="password"
             style={{
               borderColor: 'black',
               borderWidth: 2,
               width: '80%',
-              height: 80,
+              height: 60,
               borderRadius: 10,
               paddingLeft: 15,
               fontSize: 20,
@@ -119,8 +117,8 @@ export default function Login(): React.ReactNode {
               }}
               style={{
                 width: '50%',
-                backgroundColor: 'lime',
-                height: 60,
+                backgroundColor: '#1af',
+                height: 55,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -128,11 +126,17 @@ export default function Login(): React.ReactNode {
                 borderBlockColor: 'black',
                 borderWidth: 2,
               }}>
-              <Text style={{ fontSize: 25 }}>Login</Text>
+              <Text style={{ fontSize: 25 }}>Enter</Text>
             </TouchableOpacity>
             <Link
               href="/register"
-              style={{ width: '75%', fontSize: 15, textAlign: 'right', color: '#0000EE' }}>
+              style={{
+                width: '75%',
+                fontSize: 15,
+                textAlign: 'right',
+                fontWeight: '600',
+                color: '#0ad',
+              }}>
               Register
             </Link>
           </View>
