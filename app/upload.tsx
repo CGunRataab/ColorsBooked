@@ -69,8 +69,8 @@ export default function Upload(): React.ReactNode {
           params: {
             url: uploadRes.downloadUrl,
             models: 'properties',
-            api_user: '50790669',
-            api_secret: 'dmeeGvCtQ8aME57Hv2PMSqw5dPUQi7JY',
+            api_user: process.env.EXPO_PUBLIC_COLOR_API_USER,
+            api_secret: process.env.EXPO_PUBLIC_COLOR_API_SECRET,
           },
         })
         .then((res) => {
