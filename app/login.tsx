@@ -43,7 +43,7 @@ export default function Login(): React.ReactNode {
           context.setUser(res.data.loginUser);
           const temp = res.data.loginUser.id;
           AsyncStorage.setItem('userId', temp);
-          router.replace('/(tabs)');
+          router.replace('/(tabs)/(home)');
         }
       })
       .catch((error) => setErrorMessage(error.message));

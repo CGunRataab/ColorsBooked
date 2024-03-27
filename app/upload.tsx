@@ -89,7 +89,7 @@ export default function Upload(): React.ReactNode {
           }).catch((err) => console.log(err.message));
         })
         .catch((err) => console.log(err));
-      router.push('/(tabs)');
+      router.push('/(tabs)/(home)');
     } catch (err) {
       console.log(err);
     }

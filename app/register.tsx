@@ -58,7 +58,7 @@ export default function Register(): React.ReactNode {
           context.setUser(res.data.createUser);
           const temp = res.data.createUser.id;
           AsyncStorage.setItem('userId', temp);
-          router.replace('/(tabs)');
+          router.replace('/(tabs)/(home)');
         }
       })
       .catch((error) => {

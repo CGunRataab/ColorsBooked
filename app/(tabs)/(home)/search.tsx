@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
+import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import {
   Dimensions,
@@ -16,35 +17,35 @@ import { Header } from '@/components/header';
 import { Pictures } from '@/components/pictures';
 
 const Colors = [
-  '#000',
-  '#555',
-  '#f00',
-  '#f09',
-  '#508',
-  '#00c',
-  '#07f',
-  '#0ff',
-  '#091',
-  '#0f0',
-  '#ff0',
-  '#fa0',
-  '#f50',
-  '#fff',
+  '#000000',
+  '#555555',
+  '#ff0000',
+  '#ff0099',
+  '#550088',
+  '#0000cc',
+  '#0077ff',
+  '#00ffff',
+  '#009911',
+  '#00ff00',
+  '#ffff00',
+  '#ffaa00',
+  '#ff5500',
+  '#ffffff',
   'last',
 ];
 
-const GET_PICTURE_LIST = gql`
-  query GetPictureList {
-    getPictureList {
-      description
+const GET_SEARCH_PICTURES = gql`
+  query GetSearchPictures($search: String, $color: String) {
+    getSearchPictures(search: $search, color: $color) {
       photo
       title
+      description
       username
+      userId
       color {
-        b
-        g
-        hex
         r
+        g
+        b
       }
     }
   }
@@ -52,7 +53,10 @@ const GET_PICTURE_LIST = gql`
 
 export default function TabOneScreen(): React.ReactNode {
   const [colorWheel, setColorWheel] = useState(false);
-  const { data, loading, error } = useQuery(GET_PICTURE_LIST);
+  const searchVar = useLocalSearchParams();
+  const { data, loading, error } = useQuery(GET_SEARCH_PICTURES, {
+    variables: { search: searchVar.search, color: searchVar.chosenColor },
+  });
   const [chosenColor, setChosenColor] = useState('cyan');
   const [state, setState] = useState({
     currentColor: '#00FF00',
@@ -70,7 +74,7 @@ export default function TabOneScreen(): React.ReactNode {
       </View>
     );
   if (loading) return <Text>Loading</Text>;
-  const { getPictureList } = data;
+  const { getSearchPictures } = data;
   const onColorChange = (color: string): void => {
     setState({ ...state, currentColor: color });
   };
@@ -78,7 +82,7 @@ export default function TabOneScreen(): React.ReactNode {
     setBarColor(color);
   };
   return (
-    <View style={{ backgroundColor: '#f8f8f8' }}>
+    <View style={{ backgroundColor: '#f5f5f5' }}>
       {colorWheel && (
         <View
           style={{
@@ -97,14 +101,6 @@ export default function TabOneScreen(): React.ReactNode {
               position: 'absolute',
             }}
           />
-          {/* <View
-            style={{
-              width: '100%',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}> */}
           <ColorPicker
             color={state.currentColor}
             swatchesOnly={state.swatchesOnly}
@@ -182,7 +178,7 @@ export default function TabOneScreen(): React.ReactNode {
                 />
               )}
               style={{ width: '100%' }}
-              data={getPictureList}
+              data={getSearchPictures}
               renderItem={({ item }) => (
                 <Pictures
                   title={item.title}

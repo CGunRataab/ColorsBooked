@@ -127,7 +127,7 @@ const TabLayout: React.FC = () => {
         },
       }}>
       <Tabs.Screen
-        name="index"
+        name="(home)"
         options={{
           title: '',
           tabBarIcon: ({ color }) => (
