@@ -1,11 +1,11 @@
 import { useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import gql from 'graphql-tag';
 import { useContext, useEffect, useState } from 'react';
 import {
-  Image,
   Keyboard,
   Text,
   TextInput,
@@ -48,6 +48,7 @@ export default function Upload(): React.ReactNode {
         setTemp(e);
       }
     });
+    AsyncStorage.removeItem('upload');
   }, []);
   const Parser = async (): Promise<void> => {
     const tes = await JSON.parse(temp);
@@ -98,7 +99,12 @@ export default function Upload(): React.ReactNode {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ flex: 1, alignItems: 'center', gap: 10 }}>
-        <Image style={{ width: '95%', height: 500 }} source={{ uri: temp2?.photo?.uri }} />
+        <Image
+          style={{ width: '100%', height: 500, borderWidth: 2, borderColor: 'black' }}
+          source={temp2?.photo?.uri}
+          contentFit="cover"
+          transition={1000}
+        />
         <View style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
           <TextInput
             style={{

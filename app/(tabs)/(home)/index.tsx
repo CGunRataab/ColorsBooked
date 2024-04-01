@@ -78,7 +78,7 @@ export default function TabOneScreen(): React.ReactNode {
     setBarColor(color);
   };
   return (
-    <View style={{ backgroundColor: '#f5f5f5' }}>
+    <View style={{ backgroundColor: '#ffffff' }}>
       {colorWheel && (
         <View
           style={{

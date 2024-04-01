@@ -46,7 +46,11 @@ const Capturer = async ({
     );
   }
 
-  const result = await ImagePicker.launchCameraAsync({ quality: 1 });
+  const result = await ImagePicker.launchCameraAsync({
+    quality: 1,
+    allowsEditing: true,
+    aspect: [9, 16],
+  });
   if (!result.canceled) {
     if (result.assets[0].uri) setPhoto(result.assets[0]);
   }
@@ -73,9 +77,8 @@ const Picker = async ({
   }
 
   const result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.All,
     allowsEditing: true,
-    aspect: [4, 3],
+    aspect: [9, 16],
     quality: 1,
   });
   if (!result.canceled) {

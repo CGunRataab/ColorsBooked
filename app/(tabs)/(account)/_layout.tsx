@@ -5,6 +5,7 @@ const TabLayout: React.FC = () => {
     <Stack
       screenOptions={{
         headerShown: false,
+        contentStyle: { backgroundColor: 'white' },
       }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="settings" />
