@@ -10,8 +10,8 @@ import { HomeIcon } from '@/assets/images/Vector';
 import { CreateUserContext } from '@/context/userContext';
 
 const GET_USER_ID = gql`
-  query ExampleQuery($id: ID) {
-    getUser(id: $id) {
+  query ExampleQuery($token: String!) {
+    getUser(token: $token) {
       email
       id
       name
@@ -60,6 +60,7 @@ const Picker = async ({
   requestPermission,
   setPhoto,
 }: ForCamera): Promise<React.ReactNode | void> => {
+  router.push('/login');
   if (!status || !status.granted) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -94,7 +95,7 @@ const TabLayout: React.FC = () => {
   const [photo, setPhoto] = useState<ImagePicker.ImagePickerAsset | null>(null);
   const Parser = async (): Promise<string | null> => {
     const temp = await AsyncStorage.getItem('userId');
-    getUser({ variables: { id: temp } })
+    getUser({ variables: { token: temp } })
       .then((res) => {
         context?.setUser(res.data.getUser);
         if (res.data === undefined || res.data.getUser === null) {

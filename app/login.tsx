@@ -1,4 +1,4 @@
-import { gql, useMutation } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link, router } from 'expo-router';
 import { useContext, useState } from 'react';
@@ -14,18 +14,16 @@ import {
 import { CreateUserContext } from '@/context/userContext';
 
 const LOGIN_USER = gql`
-  mutation LoginUser($input: UserLogin!) {
+  query LoginUser($input: UserLogin!) {
     loginUser(input: $input) {
-      id
-      email
-      password
+      token
     }
   }
 `;
 
 export default function Login(): React.ReactNode {
   const context = useContext(CreateUserContext);
-  const [userLogin] = useMutation(LOGIN_USER);
+  const [userLogin] = useLazyQuery(LOGIN_USER);
   const [errorMessage, setErrorMessage] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,7 +39,7 @@ export default function Login(): React.ReactNode {
       .then((res) => {
         if (context !== null) {
           context.setUser(res.data.loginUser);
-          const temp = res.data.loginUser.id;
+          const temp = res.data.loginUser.token;
           AsyncStorage.setItem('userId', temp);
           router.replace('/(tabs)/(home)');
         }

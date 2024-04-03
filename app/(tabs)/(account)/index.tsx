@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import gql from 'graphql-tag';
@@ -7,10 +7,11 @@ import { Dimensions, FlatList, Text, TouchableOpacity, View } from 'react-native
 
 import { SettingsIcon } from '@/assets/images/SettingIcon';
 import { CreateUserContext } from '@/context/userContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GET_MY_PICTURES = gql`
-  query GetUsersPictureList {
-    getUsersPictureList {
+  query GetUsersPictureList($token: String!) {
+    getUsersPictureList(token: $token) {
       photo
       title
       description
@@ -23,15 +24,15 @@ const GET_MY_PICTURES = gql`
 
 export default function Page(): React.ReactNode {
   const userContext = useContext(CreateUserContext);
-  const { data, loading } = useQuery(GET_MY_PICTURES, {
-    variables: { userId: userContext?.user?.id },
-  });
+  const [getUserPicture, { loading }] = useLazyQuery(GET_MY_PICTURES);
   const [myPics, setMyPics] = useState();
+  const Parser = async (): Promise<void> => {
+    const token = await AsyncStorage.getItem('userId');
+    getUserPicture({ variables: { token } }).then((res) => setMyPics(res.data.getUsersPictureList));
+  };
   useEffect(() => {
-    if (data !== undefined) {
-      setMyPics(data.getUsersPictureList);
-    }
-  }, [data]);
+    Parser();
+  }, []);
   if (!userContext) return;
   if (loading) return;
   const { user } = userContext;
@@ -104,7 +105,9 @@ export default function Page(): React.ReactNode {
             />
             <View style={{ width: '80%', display: 'flex', marginLeft: 30 }}>
               <Text style={{ fontSize: 35 }}>{item.title}</Text>
-              <Text style={{ fontSize: 25, color: 'grey' }}>{item.description}</Text>
+              <Text style={{ fontSize: 25, color: 'grey' }}>
+                {item.description}/{item.color.hex}
+              </Text>
             </View>
           </View>
         )}
