@@ -9,6 +9,7 @@ const TabLayout: React.FC = () => {
       }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="settings" />
+      <Stack.Screen name="insettings" />
     </Stack>
   );
 };

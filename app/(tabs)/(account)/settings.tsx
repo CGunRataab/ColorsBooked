@@ -42,6 +42,9 @@ export default function Settings(): React.ReactNode {
           height: 60,
           alignItems: 'center',
           justifyContent: 'center',
+        }}
+        onPress={() => {
+          router.push('/insettings');
         }}>
         <Text style={{ color: 'white', fontSize: 20, fontWeight: '600' }}>Settings</Text>
       </TouchableOpacity>

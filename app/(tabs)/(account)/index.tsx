@@ -1,4 +1,5 @@
 import { useLazyQuery } from '@apollo/client';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import gql from 'graphql-tag';
@@ -7,7 +8,6 @@ import { Dimensions, FlatList, Text, TouchableOpacity, View } from 'react-native
 
 import { SettingsIcon } from '@/assets/images/SettingIcon';
 import { CreateUserContext } from '@/context/userContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GET_MY_PICTURES = gql`
   query GetUsersPictureList($token: String!) {

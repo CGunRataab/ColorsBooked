@@ -58,7 +58,7 @@ export default function Register(): React.ReactNode {
           context.setUser(res.data.createUser);
           const temp = res.data.createUser.id;
           AsyncStorage.setItem('userId', temp);
-          router.replace('/(tabs)/(home)');
+          router.replace('/login');
         }
       })
       .catch((error) => {
@@ -115,6 +115,8 @@ export default function Register(): React.ReactNode {
             placeholderTextColor="black"
           />
           <TextInput
+            secureTextEntry
+            textContentType="password"
             style={{
               borderColor: 'black',
               borderWidth: 2,
@@ -130,6 +132,8 @@ export default function Register(): React.ReactNode {
             placeholderTextColor="black"
           />
           <TextInput
+            secureTextEntry
+            textContentType="password"
             style={{
               borderColor: 'black',
               borderWidth: 2,

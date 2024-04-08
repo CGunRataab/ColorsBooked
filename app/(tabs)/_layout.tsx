@@ -114,7 +114,7 @@ const TabLayout: React.FC = () => {
   }, []);
   useEffect(() => {
     AsyncStorage.setItem('upload', JSON.stringify({ photo }));
-    if (photo) router.push({ pathname: `../upload` });
+    if (photo) router.push({ pathname: `/upload` });
   }, [photo]);
   return (
     <Tabs
