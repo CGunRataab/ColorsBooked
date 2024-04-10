@@ -10,8 +10,8 @@ import { HomeIcon } from '@/assets/images/Vector';
 import { CreateUserContext } from '@/context/userContext';
 
 const GET_USER_ID = gql`
-  query ExampleQuery($id: ID) {
-    getUser(id: $id) {
+  query ExampleQuery($token: String!) {
+    getUser(token: $token) {
       email
       id
       name
@@ -46,7 +46,11 @@ const Capturer = async ({
     );
   }
 
-  const result = await ImagePicker.launchCameraAsync({ quality: 1 });
+  const result = await ImagePicker.launchCameraAsync({
+    quality: 1,
+    allowsEditing: true,
+    aspect: [9, 16],
+  });
   if (!result.canceled) {
     if (result.assets[0].uri) setPhoto(result.assets[0]);
   }
@@ -73,9 +77,8 @@ const Picker = async ({
   }
 
   const result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.All,
     allowsEditing: true,
-    aspect: [4, 3],
+    aspect: [9, 16],
     quality: 1,
   });
   if (!result.canceled) {
@@ -91,7 +94,7 @@ const TabLayout: React.FC = () => {
   const [photo, setPhoto] = useState<ImagePicker.ImagePickerAsset | null>(null);
   const Parser = async (): Promise<string | null> => {
     const temp = await AsyncStorage.getItem('userId');
-    getUser({ variables: { id: temp } })
+    getUser({ variables: { token: temp } })
       .then((res) => {
         context?.setUser(res.data.getUser);
         if (res.data === undefined || res.data.getUser === null) {
@@ -110,7 +113,7 @@ const TabLayout: React.FC = () => {
   }, []);
   useEffect(() => {
     AsyncStorage.setItem('upload', JSON.stringify({ photo }));
-    if (photo) router.push({ pathname: `../upload` });
+    if (photo) router.push({ pathname: `/upload` });
   }, [photo]);
   return (
     <Tabs
@@ -127,7 +130,7 @@ const TabLayout: React.FC = () => {
         },
       }}>
       <Tabs.Screen
-        name="index"
+        name="(home)"
         options={{
           title: '',
           tabBarIcon: ({ color }) => (

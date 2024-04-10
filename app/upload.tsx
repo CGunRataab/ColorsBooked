@@ -1,11 +1,11 @@
 import { useMutation } from '@apollo/client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import gql from 'graphql-tag';
 import { useContext, useEffect, useState } from 'react';
 import {
-  Image,
   Keyboard,
   Text,
   TextInput,
@@ -25,20 +25,11 @@ const UPLOAD_PIC = gql`
   }
 `;
 
-interface ColorTypes {
-  r: number;
-  g: number;
-  b: number;
-  hex: string;
-  hsv: [];
-}
-
 export default function Upload(): React.ReactNode {
   const context = useContext(CreateUserContext);
   const [temp, setTemp] = useState<string>('');
   const [temp2, setTemp2] = useState<{ photo: { uri: string; fileName: string } } | null>();
   const [title, setTitle] = useState('');
-  const [color, setColor] = useState<ColorTypes>();
   const [description, setDescription] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>();
   const [sendImage] = useMutation(UPLOAD_PIC);
@@ -48,6 +39,7 @@ export default function Upload(): React.ReactNode {
         setTemp(e);
       }
     });
+    AsyncStorage.removeItem('upload');
   }, []);
   const Parser = async (): Promise<void> => {
     const tes = await JSON.parse(temp);
@@ -74,7 +66,6 @@ export default function Upload(): React.ReactNode {
           },
         })
         .then((res) => {
-          setColor(res.data.colors.dominant);
           sendImage({
             variables: {
               input: {
@@ -89,16 +80,20 @@ export default function Upload(): React.ReactNode {
           }).catch((err) => console.log(err.message));
         })
         .catch((err) => console.log(err));
-      router.push('/(tabs)');
+      router.push('/(tabs)/(home)');
     } catch (err) {
       console.log(err);
     }
-    console.log(color);
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ flex: 1, alignItems: 'center', gap: 10 }}>
-        <Image style={{ width: '95%', height: 500 }} source={{ uri: temp2?.photo?.uri }} />
+        <Image
+          style={{ width: '100%', height: 500, borderWidth: 2, borderColor: 'black' }}
+          source={temp2?.photo?.uri}
+          contentFit="cover"
+          transition={1000}
+        />
         <View style={{ width: '100%', display: 'flex', alignItems: 'center' }}>
           <TextInput
             style={{

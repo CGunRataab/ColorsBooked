@@ -16,26 +16,27 @@ import { Header } from '@/components/header';
 import { Pictures } from '@/components/pictures';
 
 const Colors = [
-  '#000',
-  '#555',
-  '#f00',
-  '#f09',
-  '#508',
-  '#00c',
-  '#07f',
-  '#0ff',
-  '#091',
-  '#0f0',
-  '#ff0',
-  '#fa0',
-  '#f50',
-  '#fff',
+  '#000000',
+  '#555555',
+  '#ff0000',
+  '#ff0099',
+  '#550088',
+  '#0000cc',
+  '#0077ff',
+  '#00ffff',
+  '#009911',
+  '#00ff00',
+  '#ffff00',
+  '#ffaa00',
+  '#ff5500',
+  '#ffffff',
   'last',
 ];
 
 const GET_PICTURE_LIST = gql`
   query GetPictureList {
     getPictureList {
+      id
       description
       photo
       title
@@ -78,7 +79,7 @@ export default function TabOneScreen(): React.ReactNode {
     setBarColor(color);
   };
   return (
-    <View style={{ backgroundColor: '#f8f8f8' }}>
+    <View style={{ backgroundColor: '#ffffff' }}>
       {colorWheel && (
         <View
           style={{
@@ -185,6 +186,7 @@ export default function TabOneScreen(): React.ReactNode {
               data={getPictureList}
               renderItem={({ item }) => (
                 <Pictures
+                  id={item.id}
                   title={item.title}
                   description={item.description}
                   color={item.color}

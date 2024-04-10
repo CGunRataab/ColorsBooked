@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity } from 'react-native';
 
@@ -18,8 +19,11 @@ export const Header = ({
   chosenColor,
   setChosenColor,
 }: header): React.ReactNode => {
-  const [, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
   const [extended, setExtended] = useState(false);
+  const Search = (): void => {
+    router.push({ pathname: '/(tabs)/(home)/search', params: { search, chosenColor } });
+  };
   return (
     <View
       style={
@@ -81,6 +85,7 @@ export const Header = ({
             borderColor: '#00EEEE',
             height: 40,
             fontSize: 20,
+            color: '#00EEEE',
           }}
           textAlign="center"
           placeholder="Search"
@@ -92,6 +97,9 @@ export const Header = ({
             borderColor: '#00EEEE',
             borderWidth: 2,
             borderRadius: 100,
+          }}
+          onPress={() => {
+            Search();
           }}>
           <EnterArrow width="40px" height="40px" color="#00EEEE" />
         </TouchableOpacity>

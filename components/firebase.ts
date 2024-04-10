@@ -1,5 +1,6 @@
 import { initializeApp, getApp, getApps } from 'firebase/app';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import * as ImageManipulator from 'expo-image-manipulator';
 
 interface FirebaseCheck {
   downloadUrl: string | undefined;
@@ -29,16 +30,15 @@ const uploadToFirebase = async (
   uri: string | undefined,
   name: string | undefined,
 ): Promise<FirebaseCheck> => {
-  let response;
-  if (uri !== undefined) {
-    response = await fetch(uri);
-  } else {
-    return { downloadUrl: 'Must have Image' };
-  }
+  if (uri === undefined) return { downloadUrl: 'Must have Image' };
+  const manipResult = await ImageManipulator.manipulateAsync(uri, [], {
+    compress: 1,
+    format: ImageManipulator.SaveFormat.JPEG,
+  });
+  const response = await fetch(manipResult.uri);
   const theBlob = await response.blob();
   const imageRef = ref(getStorage(), `images/${name}`);
   const uploadTask = uploadBytesResumable(imageRef, theBlob);
-  console.log(name);
   return new Promise((resolve, reject) => {
     uploadTask.on(
       'state_changed',
