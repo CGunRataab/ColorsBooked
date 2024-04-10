@@ -1,7 +1,9 @@
 import { Image } from 'expo-image';
-import { Text, View } from 'react-native';
+import { router } from 'expo-router';
+import { Text, TouchableWithoutFeedback, View } from 'react-native';
 
 interface Colors {
+  id: string;
   title: string;
   description: string;
   color: { hex: string };
@@ -12,6 +14,7 @@ const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 export const Pictures = ({
+  id,
   title,
   description,
   color,
@@ -30,13 +33,18 @@ export const Pictures = ({
         backgroundColor: '#fff',
       }}>
       <Text style={{ fontSize: 20, marginLeft: 10, fontWeight: '500' }}>{username}</Text>
-      <Image
-        style={{ width: '100%', height: 500, borderWidth: 2, borderColor: 'black' }}
-        source={photo}
-        placeholder={blurhash}
-        contentFit="cover"
-        transition={1000}
-      />
+      <TouchableWithoutFeedback
+        onPress={() => {
+          router.push({ pathname: `/insidePic`, params: { id } });
+        }}>
+        <Image
+          style={{ width: '100%', height: 450, borderWidth: 2, borderColor: 'black' }}
+          source={photo}
+          placeholder={blurhash}
+          contentFit="cover"
+          transition={1000}
+        />
+      </TouchableWithoutFeedback>
       <View style={{ marginLeft: 10 }}>
         <Text style={{ fontSize: 30 }}>{title}</Text>
         <Text style={{ fontSize: 20 }}>

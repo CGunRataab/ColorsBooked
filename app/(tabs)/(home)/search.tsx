@@ -37,6 +37,7 @@ const Colors = [
 const GET_SEARCH_PICTURES = gql`
   query GetSearchPictures($search: String, $color: String) {
     getSearchPictures(search: $search, color: $color) {
+      id
       photo
       title
       description
@@ -46,6 +47,7 @@ const GET_SEARCH_PICTURES = gql`
         r
         g
         b
+        hex
       }
     }
   }
@@ -181,6 +183,7 @@ export default function TabOneScreen(): React.ReactNode {
               data={getSearchPictures}
               renderItem={({ item }) => (
                 <Pictures
+                  id={item.id}
                   title={item.title}
                   description={item.description}
                   color={item.color}

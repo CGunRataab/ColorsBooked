@@ -12,17 +12,26 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.vhigrat.expowitheslint"
+      "bundleIdentifier": "com.vhigrat.expowitheslint",
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.vhigrat.expowitheslint"
+      "package": "com.vhigrat.expowitheslint",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "runtimeVersion": "1.0.0"
     },
     "web": {
       "bundler": "metro",
@@ -41,6 +50,17 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "b2fcfb95-9d8b-47b6-943d-039b72e664b4"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b2fcfb95-9d8b-47b6-943d-039b72e664b4"
     }
   }
 }

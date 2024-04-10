@@ -60,7 +60,6 @@ const Picker = async ({
   requestPermission,
   setPhoto,
 }: ForCamera): Promise<React.ReactNode | void> => {
-  router.push('/login');
   if (!status || !status.granted) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

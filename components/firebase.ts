@@ -32,6 +32,7 @@ const uploadToFirebase = async (
 ): Promise<FirebaseCheck> => {
   if (uri === undefined) return { downloadUrl: 'Must have Image' };
   const manipResult = await ImageManipulator.manipulateAsync(uri, [], {
+    compress: 1,
     format: ImageManipulator.SaveFormat.JPEG,
   });
   const response = await fetch(manipResult.uri);

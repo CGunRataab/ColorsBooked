@@ -36,6 +36,7 @@ const Colors = [
 const GET_PICTURE_LIST = gql`
   query GetPictureList {
     getPictureList {
+      id
       description
       photo
       title
@@ -185,6 +186,7 @@ export default function TabOneScreen(): React.ReactNode {
               data={getPictureList}
               renderItem={({ item }) => (
                 <Pictures
+                  id={item.id}
                   title={item.title}
                   description={item.description}
                   color={item.color}

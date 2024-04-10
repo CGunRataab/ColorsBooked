@@ -25,20 +25,11 @@ const UPLOAD_PIC = gql`
   }
 `;
 
-interface ColorTypes {
-  r: number;
-  g: number;
-  b: number;
-  hex: string;
-  hsv: [];
-}
-
 export default function Upload(): React.ReactNode {
   const context = useContext(CreateUserContext);
   const [temp, setTemp] = useState<string>('');
   const [temp2, setTemp2] = useState<{ photo: { uri: string; fileName: string } } | null>();
   const [title, setTitle] = useState('');
-  const [color, setColor] = useState<ColorTypes>();
   const [description, setDescription] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>();
   const [sendImage] = useMutation(UPLOAD_PIC);
@@ -75,7 +66,6 @@ export default function Upload(): React.ReactNode {
           },
         })
         .then((res) => {
-          setColor(res.data.colors.dominant);
           sendImage({
             variables: {
               input: {
@@ -94,7 +84,6 @@ export default function Upload(): React.ReactNode {
     } catch (err) {
       console.log(err);
     }
-    console.log(color);
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

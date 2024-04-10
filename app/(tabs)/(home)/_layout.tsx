@@ -18,6 +18,7 @@ const TabLayout: React.FC = () => {
           title: 'Tab One',
         }}
       />
+      <Stack.Screen name="insidePic" />
     </Stack>
   );
 };
