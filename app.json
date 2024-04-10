@@ -12,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.vhigrat.expowitheslint",
@@ -28,9 +26,7 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.vhigrat.expowitheslint",
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
+      "permissions": ["android.permission.RECORD_AUDIO"],
       "runtimeVersion": "1.0.0"
     },
     "web": {

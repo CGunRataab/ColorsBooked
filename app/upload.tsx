@@ -16,6 +16,7 @@ import {
 
 import { uploadToFirebase } from '@/components/firebase';
 import { CreateUserContext } from '@/context/userContext';
+import { EnterArrow } from '@/assets/images/enterArrow';
 
 const UPLOAD_PIC = gql`
   mutation Mutation($input: PictureCreateInput!) {
@@ -88,6 +89,21 @@ export default function Upload(): React.ReactNode {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ flex: 1, alignItems: 'center', gap: 10 }}>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          style={{
+            borderColor: '#00EEEE',
+            borderWidth: 2,
+            width: 50,
+            height: 50,
+            borderRadius: 100,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            transform: [{ rotate: '180deg' }],
+          }}>
+          <EnterArrow width="40px" height="40px" color="#00EEEE" />
+        </TouchableOpacity>
         <Image
           style={{ width: '100%', height: 500, borderWidth: 2, borderColor: 'black' }}
           source={temp2?.photo?.uri}

@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import {
   Dimensions,
@@ -15,6 +15,7 @@ import ColorPicker from 'react-native-wheel-color-picker';
 
 import { Header } from '@/components/header';
 import { Pictures } from '@/components/pictures';
+import { EnterArrow } from '@/assets/images/enterArrow';
 
 const Colors = [
   '#000000',
@@ -171,13 +172,30 @@ export default function TabOneScreen(): React.ReactNode {
               scrollEnabled={false}
               contentContainerStyle={{ gap: 30 }}
               ListHeaderComponent={() => (
-                <Header
-                  chosenColor={chosenColor}
-                  setChosenColor={setChosenColor}
-                  Colors={Colors}
-                  colorWheel={colorWheel}
-                  setColorWheel={setColorWheel}
-                />
+                <View>
+                  <Header
+                    chosenColor={chosenColor}
+                    setChosenColor={setChosenColor}
+                    Colors={Colors}
+                    colorWheel={colorWheel}
+                    setColorWheel={setColorWheel}
+                  />
+                  <TouchableOpacity
+                    onPress={() => router.back()}
+                    style={{
+                      borderColor: '#00EEEE',
+                      borderWidth: 2,
+                      width: 50,
+                      height: 50,
+                      borderRadius: 100,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      transform: [{ rotate: '180deg' }],
+                    }}>
+                    <EnterArrow width="40px" height="40px" color="#00EEEE" />
+                  </TouchableOpacity>
+                </View>
               )}
               style={{ width: '100%' }}
               data={getSearchPictures}
