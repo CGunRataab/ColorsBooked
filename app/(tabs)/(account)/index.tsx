@@ -61,7 +61,7 @@ export default function Page(): React.ReactNode {
                   height: 150,
                   borderRadius: 100,
                   borderWidth: 2,
-                  borderColor: 'black',
+                  borderColor: '#00EEEE',
                 }}
               />
               <Text style={{ fontSize: 40, color: '#00EEEE' }}>{user?.name}</Text>
@@ -97,16 +97,23 @@ export default function Page(): React.ReactNode {
               alignItems: 'flex-start',
               borderColor: 'black',
               gap: 15,
+              borderRadius: 10,
               borderWidth: 1,
+              paddingBottom: 20,
             }}>
             <Image
-              style={{ width: 400, height: 400, borderWidth: 1, borderColor: 'black' }}
+              style={{
+                width: 400,
+                height: 400,
+                borderWidth: 1,
+                borderColor: 'black',
+                borderRadius: 10,
+              }}
               source={item.photo}
             />
             <View style={{ width: '80%', display: 'flex', marginLeft: 30 }}>
-              <Text style={{ fontSize: 35 }}>{item.title}</Text>
-              <Text style={{ fontSize: 25, color: 'grey' }}>
-                {item.description}/{item.color.hex}
+              <Text style={{ fontSize: 35 }}>
+                {item.title} / {item.color.hex}
               </Text>
             </View>
           </View>

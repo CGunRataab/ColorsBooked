@@ -31,6 +31,11 @@ export const Pictures = ({
         borderColor: '#0077EE',
         borderTopWidth: 2,
         backgroundColor: '#fff',
+        borderRadius: 10,
+        shadowColor: '#171717',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
       }}>
       <Text style={{ fontSize: 20, marginLeft: 10, fontWeight: '500' }}>{username}</Text>
       <TouchableWithoutFeedback

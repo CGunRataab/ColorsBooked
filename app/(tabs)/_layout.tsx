@@ -122,11 +122,11 @@ const TabLayout: React.FC = () => {
         headerShown: false,
         tabBarStyle: {
           borderWidth: 1,
-          borderTopWidth: 2,
-          borderTopColor: '#00EEEE',
+          borderColor: '#00EEEE',
           backgroundColor: '#0077EE',
           height: 80,
           paddingTop: 20,
+          borderRadius: 10,
         },
       }}>
       <Tabs.Screen
