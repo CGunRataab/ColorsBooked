@@ -31,5 +31,10 @@ This project has a person create an account. After making an account the person 
 1. Have node.js installed
 2. Download Expo Go on IPhone, Expo on Android
 3. clone this project
-4. npm start
+4. `npm start`
 5. Scan QR code
+
+## Known Issues
+
+Unable to refresh to see recently posted pictures.
+Has trouble storing many pictures.
